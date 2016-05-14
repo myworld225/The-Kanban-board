@@ -47,7 +47,7 @@ exports.create = function(req,res){
 		if(tasks.length > 0){
 			console.error('There are some contents already, skip to create'+
 				'this task. Contents : ' + req.body.contents);
-			newTaks = false;
+			newTask = false;
 		}
 
 		//if this task is new, save it!!
@@ -55,14 +55,21 @@ exports.create = function(req,res){
 			new Task({
 				contents : req.body.contents,
 				author : req.body.author
-			}).save();
-			console.log('Succeed to create new task { ' + req.body.contents + '}');
+			}).save(function(err2, savedDoc){
+				if(err2)
+					throw err2;
+				console.log('Succeed to create new task { ' + req.body.contents + '}');
+				res.redirect('/');
+				res.end();
+			});
+			// console.log('Succeed to create new task { ' + req.body.contents + '}');
 		}
 	});
 
 	//display all tasks
 	res.redirect('/');
 	res.end();
+	
 };
 
 exports.update = function(req, res){
@@ -71,10 +78,10 @@ exports.update = function(req, res){
 		contents : req.body.contents
 	},{
 		status : req.body.status
-	}, function(err, numberAffected, raw){
+	}, function(err, raw){
 		if(err)
 			throw err;
-		console.log('The number of updated documents was %d',numberAffected);
+		//console.log('The number of updated documents was %d',numberAffected);
 		console.log('The raw response from MongoDB was ',raw);
 	});
 
