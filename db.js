@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 
 //connection uri
-var dbURI = 'mongodb://ksnpark:qkrrl1223@ds021922.mlab.com:21922/ksnpark'
+var dbURI = 'mongodb://ksnpark:qkrrl1223@ds021922.mlab.com:21922/ksnpark';
 
 //exports connect function to app.js
 exports.connect = function(){
@@ -29,7 +29,7 @@ exports.connect = function(){
 
 	//If the Node.js process is going down, close database
 	//connection pool
-	process.on('SIGINT',functoin(){
+	process.on('SIGINT',function(){
 		mongoose.conncetion.close(function(){
 			console.log('Application process is going down, disconnect database connection ...');
 		});
